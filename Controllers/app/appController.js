@@ -13,7 +13,6 @@ var config = {
     server: 'UFACTORY03',
     options: {
         trustServerCertificate: true,
-        instanceName: 'MSSQLSERVER',
         database: 'UFactory',  //the username above should have granted permissions in order to access this DB.
         debug: {
             packet: false,
