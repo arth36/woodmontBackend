@@ -11,6 +11,7 @@ var config = {
     user: 'w.temp',
     password: '3699',
     server: 'UFACTORY03',
+    port: 1433,
     options: {
         trustServerCertificate: true,
         database: 'UFactory',  //the username above should have granted permissions in order to access this DB.
