@@ -13,7 +13,8 @@ var config = {
     server: 'UFACTORY03',
     database: 'UFactory',
     options: {
-        trustServerCertificate: true
+        trustServerCertificate: true,
+        "encrypt": false
     }
 };
 
