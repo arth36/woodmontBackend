@@ -11,9 +11,9 @@ var config = {
     user: 'w.temp',
     password: '3699',
     server: 'UFACTORY03',
-    database: 'UFactory',
     options: {
         trustServerCertificate: true,
+        database: 'UFactory',
         "encrypt": false
     }
 };
