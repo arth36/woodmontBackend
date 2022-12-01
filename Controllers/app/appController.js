@@ -11,7 +11,7 @@ var config = {
     user: 'w.temp',
     password: '3699',
     server: 'woodmont.dyndns.biz',
-    port: 1433,
+    port: 3000,
     options: {
         trustServerCertificate: true,
         database: 'UFactory',  //the username above should have granted permissions in order to access this DB.
