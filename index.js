@@ -22,6 +22,6 @@ app.use(routes)
 app.use(router);
 
 // listen for requests
-app.listen(process.env.port || 1433, function(){
-    console.log('now listening to 1433')
+app.listen(process.env.port || 3000, function(){
+    console.log('now listening to 3000')
 });
