@@ -9,8 +9,8 @@ const sql = require('mssql')
 // mysql connection
 var config = {
     user: 'w.temp',
-    password: '3699',
-    server: 'woodmont.dyndns.biz',
+    password: 'Woodmont@3699',
+    server: 'Ufactory03',
     port: 3000,
     options: {
         trustServerCertificate: true,
