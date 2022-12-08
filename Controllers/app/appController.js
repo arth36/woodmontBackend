@@ -10,7 +10,7 @@ const sql = require('mssql')
 var config = {
     user: 'w.temp',
     password: 'Woodmont@3699',
-    server: 'Ufactory03',
+    server: 'woodmont.dyndns.biz',
     port: 3000,
     options: {
         trustServerCertificate: true,
