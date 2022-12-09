@@ -178,7 +178,9 @@ appController.insertScannedValue = async function(req, res){
                     })
                 }else{
                     const sal_ord_num = response.recordset[0].sales_order_id
-                    dateval = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                    const dateval = (new Date(Date.now() - tzoffset)).toISOString().toLocaleString().slice(0, 19).replace('T', ' ');
+                    console.log(dateval);
                     request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, line_item_seq_num, package_num, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' ," + seqnum + "," + pkgnum + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
                         if(err){
                             console.log(err)
@@ -214,7 +216,9 @@ appController.insertScannedValue = async function(req, res){
                     })
                 }else{
                     const sal_ord_num = response.recordset[0].sales_order_id
-                    dateval = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                    const dateval = (new Date(Date.now() - tzoffset)).toISOString().toLocaleString().slice(0, 19).replace('T', ' ');
+                    console.log(dateval);
                     request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' , '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
                         if(err){
                             console.log('hellllo', err)
