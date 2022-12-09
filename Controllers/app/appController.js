@@ -162,7 +162,7 @@ appController.insertScannedValue = async function(req, res){
 
     const date = moment().format('YYYY-MM-DD HH:mm:ss')
     
-    if(selectedType == 'order_activity'){
+    if(selectedType != 'order_activity'){
         console.log('Type1')
         request.query("select so.sales_order_id from sal_sales_order so, sal_sales_order_line_item li where so.sales_order_id = li.sales_order_id and so.sales_order_num = '" + ordnum + "' and li.seq_num = '" + seqnum + "'", async function(err, response){
             if(err){
@@ -178,7 +178,8 @@ appController.insertScannedValue = async function(req, res){
                     })
                 }else{
                     const sal_ord_num = response.recordset[0].sales_order_id
-                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, line_item_seq_num, package_num, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + "," + seqnum + "," + pkgnum + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
+                    dateval = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, line_item_seq_num, package_num, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' ," + seqnum + "," + pkgnum + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
                         if(err){
                             console.log(err)
                             res.status(responseMessages.insertRecordError.code).json({
@@ -206,7 +207,6 @@ appController.insertScannedValue = async function(req, res){
                 })
             }else{
                 console.log("response", response)
-
                 if(!Object.keys(response.recordset).length){
                     res.status(responseMessages.dataDoesNotExist.code).json({
                         message: responseMessages.dataDoesNotExist.message,
@@ -214,7 +214,8 @@ appController.insertScannedValue = async function(req, res){
                     })
                 }else{
                     const sal_ord_num = response.recordset[0].sales_order_id
-                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
+                    dateval = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' , '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
                         if(err){
                             console.log('hellllo', err)
                             res.status(responseMessages.insertRecordError.code).json({
