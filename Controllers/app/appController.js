@@ -163,53 +163,6 @@ appController.insertScannedValue = async function(req, res){
     const date = moment().format('YYYY-MM-DD HH:mm:ss')
     
     if(selectedType == 'order_activity'){
-        console.log('Type1')
-        request.query("select so.sales_order_id from sal_sales_order so, sal_sales_order_line_item li where so.sales_order_id = li.sales_order_id and so.sales_order_num = '" + ordnum + "' and li.seq_num = '" + seqnum + "'", async function(err, response){
-            if(err){
-                res.status(responseMessages.getOrderIdError.code).json({
-                    message: responseMessages.getOrderIdError.message
-                })
-            }else{
-                console.log(response.recordset[0])
-                if(!Object.keys(response.recordset).length){
-                    res.status(responseMessages.dataDoesNotExist.code).json({
-                        message: responseMessages.dataDoesNotExist.message,
-                        status: responseMessages.dataDoesNotExist.code
-                    })
-                }else{
-                    const sal_ord_num = response.recordset[0].sales_order_id
-                    dateval = new Date();
-                    dateJan = new Date(dateval.getFullYear(), 0, 1);
-                    dateJul = new Date(dateval.getFullYear(), 6, 1);
-                    timezoneOffset = Math.max(dateJan.getTimezoneOffset(), dateJul.getTimezoneOffset());
-                    if (dateval.getTimezoneOffset() < timezoneOffset) {
-                        // Adjust date by 5 hours
-                        dateval = new Date(dateValue.getTime() - ((1 * 60 * 60 * 1000) * 5));
-                    }
-                    else {
-                        // Adjust date by 6 hours
-                        dateval = new Date(dateval.getTime() - ((1 * 60 * 60 * 1000) * 6));
-                    }
-                    dateval = dateval.toISOString().slice(0, 19).replace('T', ' ');
-                    console.log(dateval);
-                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, line_item_seq_num, package_num, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' ," + seqnum + "," + pkgnum + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
-                        if(err){
-                            console.log(err)
-                            res.status(responseMessages.insertRecordError.code).json({
-                                message: responseMessages.insertRecordError.message,
-                                status: responseMessages.insertRecordError.code
-                            })
-                        }else{
-                            res.status(responseMessages.insertRecordSuccess.code).json({
-                                message: responseMessages.insertRecordSuccess.message,
-                                status: responseMessages.insertRecordSuccess.code
-                            })
-                        }
-                    })
-                }
-            }
-        })
-    }else{
         console.log('Type2')
         request.query("select so.sales_order_id from sal_sales_order so where so.sales_order_num = '" + scannedValue + "'", async function(err, response){
             if(err){
@@ -244,6 +197,53 @@ appController.insertScannedValue = async function(req, res){
                     request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' , '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
                         if(err){
                             console.log('hellllo', err)
+                            res.status(responseMessages.insertRecordError.code).json({
+                                message: responseMessages.insertRecordError.message,
+                                status: responseMessages.insertRecordError.code
+                            })
+                        }else{
+                            res.status(responseMessages.insertRecordSuccess.code).json({
+                                message: responseMessages.insertRecordSuccess.message,
+                                status: responseMessages.insertRecordSuccess.code
+                            })
+                        }
+                    })
+                }
+            }
+        })       
+    }else{
+        console.log('Type1')
+        request.query("select so.sales_order_id from sal_sales_order so, sal_sales_order_line_item li where so.sales_order_id = li.sales_order_id and so.sales_order_num = '" + ordnum + "' and li.seq_num = '" + seqnum + "'", async function(err, response){
+            if(err){
+                res.status(responseMessages.getOrderIdError.code).json({
+                    message: responseMessages.getOrderIdError.message
+                })
+            }else{
+                console.log(response.recordset[0])
+                if(!Object.keys(response.recordset).length){
+                    res.status(responseMessages.dataDoesNotExist.code).json({
+                        message: responseMessages.dataDoesNotExist.message,
+                        status: responseMessages.dataDoesNotExist.code
+                    })
+                }else{
+                    const sal_ord_num = response.recordset[0].sales_order_id
+                    dateval = new Date();
+                    dateJan = new Date(dateval.getFullYear(), 0, 1);
+                    dateJul = new Date(dateval.getFullYear(), 6, 1);
+                    timezoneOffset = Math.max(dateJan.getTimezoneOffset(), dateJul.getTimezoneOffset());
+                    if (dateval.getTimezoneOffset() < timezoneOffset) {
+                        // Adjust date by 5 hours
+                        dateval = new Date(dateValue.getTime() - ((1 * 60 * 60 * 1000) * 5));
+                    }
+                    else {
+                        // Adjust date by 6 hours
+                        dateval = new Date(dateval.getTime() - ((1 * 60 * 60 * 1000) * 6));
+                    }
+                    dateval = dateval.toISOString().slice(0, 19).replace('T', ' ');
+                    console.log(dateval);
+                    request.query("insert into Products.dbo.man_zone_activity_temp (zone_id, sales_order_id, activity_timestamp, line_item_seq_num, package_num, comments1, scanned_number, zone_user_id, company_id, comments2, comments3) values (" + zone_id + "," + sal_ord_num + ", '" + dateval + "' ," + seqnum + "," + pkgnum + ", '" + comment1 + "', '" + scannedValue + "'," + zoneuserid + "," + companyid + ", '" + comment2 + "','" + comment3 + "')", async function(err, response){
+                        if(err){
+                            console.log(err)
                             res.status(responseMessages.insertRecordError.code).json({
                                 message: responseMessages.insertRecordError.message,
                                 status: responseMessages.insertRecordError.code
