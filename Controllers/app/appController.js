@@ -162,7 +162,7 @@ appController.insertScannedValue = async function(req, res){
 
     const date = moment().format('YYYY-MM-DD HH:mm:ss')
     
-    if(selectedType != 'order_activity'){
+    if(selectedType == 'order_activity'){
         console.log('Type1')
         request.query("select so.sales_order_id from sal_sales_order so, sal_sales_order_line_item li where so.sales_order_id = li.sales_order_id and so.sales_order_num = '" + ordnum + "' and li.seq_num = '" + seqnum + "'", async function(err, response){
             if(err){
