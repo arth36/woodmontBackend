@@ -161,9 +161,9 @@ appController.insertScannedValue = async function(req, res){
     console.log(zoneuserid)
 
     const date = moment().format('YYYY-MM-DD HH:mm:ss')
-    
+
     if(selectedType == 'order_activity'){
-        console.log('Type2')
+        console.log('Order Activity')
         request.query("select so.sales_order_id from sal_sales_order so where so.sales_order_num = '" + scannedValue + "'", async function(err, response){
             if(err){
                 console.log(err)
@@ -212,7 +212,7 @@ appController.insertScannedValue = async function(req, res){
             }
         })       
     }else{
-        console.log('Type1')
+        console.log('Package Activity')
         request.query("select so.sales_order_id from sal_sales_order so, sal_sales_order_line_item li where so.sales_order_id = li.sales_order_id and so.sales_order_num = '" + ordnum + "' and li.seq_num = '" + seqnum + "'", async function(err, response){
             if(err){
                 res.status(responseMessages.getOrderIdError.code).json({
